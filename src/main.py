@@ -5,21 +5,31 @@ from ADDGUI import Ui_Dialog
 from UPDATEGUI import Ui_Dialog2
 from PyQt5.QtCore import QStringListModel
 
+
 class MainGUI(QtWidgets.QWidget, Ui_Form):
 
     def __init__(self):
         super(MainGUI, self).__init__()
         self.setupUi(self)
         self.__read_file__()
-        slm = QStringListModel()
+        slm1 = QStringListModel()
         self.__s__ = set()
         for plist in self.__P__:
             for p in plist:
                 self.__s__.add(p)
         self.__s__ = list(self.__s__)
-        slm.setStringList(self.__s__)
-        self.listView.setModel(slm)
-        self.listView.clicked.connect(self.select)
+        slm1.setStringList(self.__s__)
+        self.listView.setModel(slm1)
+        self.listView.clicked.connect(self.select1)
+        slm2 = QStringListModel()
+        self.__a__ = set()
+        for qlist in self.__Q__:
+            for q in qlist:
+                self.__a__.add(q)
+        self.__a__ = list(self.__a__)
+        slm2.setStringList(self.__a__)
+        self.listView_2.setModel(slm2)
+        self.listView_2.clicked.connect(self.select2)
 
     def __read_file__(self):
         self.__P__ = []
@@ -35,17 +45,27 @@ class MainGUI(QtWidgets.QWidget, Ui_Form):
                 lines = f.readline().split('\n')[0]
                 if not lines:
                     break
-                self.__Q__.append(lines)
+                self.__Q__.append(lines.split('/'))
 
-    def start(self):
-        str = self.fact.toPlainText().split('\n')
-        self.__DB__ = str
+    def start1(self):
+        str1 = self.fact.toPlainText().split('\n')
+        self.__DB__ = str1
         self.__read_file__()
         self.procedure.setText("----开始识别----")
         self.procedure.append('采用正向推理的方法')
         self.inference()
         self.procedure.append('----识别完成----')
-        self.result.setText(self.__result__)
+        self.result.setText(str(self.__result__))
+
+    def start2(self):
+        str2 = self.fact.toPlainText().split('\n')
+        self.__DB2__ = str2
+        self.__read_file__()
+        self.procedure.setText("----开始识别----")
+        self.procedure.append('采用反向推理的方法')
+        self.inference2()
+        self.procedure.append('----识别完成----')
+        self.result.setText(str(self.__result__))
 
     def is_include_in_DB(self, p):
         for i in p:
@@ -53,28 +73,48 @@ class MainGUI(QtWidgets.QWidget, Ui_Form):
                 return False
         return True
 
+    def is_include_in_DB2(self, q):
+        for i in q:
+            if i not in self.__DB2__:
+                return False
+        return True
+
     def inference(self):
         self.__result__ = '无法识别'
-        flag = False
+        # flag = False
         for i, p in enumerate(self.__P__):
             if self.is_include_in_DB(p):
                 self.__DB__.append(self.__Q__[i])
                 self.__result__ = self.__Q__[i]
                 self.procedure.append('%s -> %s' % (p, self.__Q__[i]))
-                flag = True
-        if flag:
-            pix = QtGui.QPixmap(self.__result__+".jpg")
-            print(self.__result__+".jpg")
-            self.label_5.setPixmap(pix)
+                break
+
+    def inference2(self):
+        self.__result__ = '无法识别'
+        flag = False
+        for i, q in enumerate(self.__Q__):
+            if self.is_include_in_DB2(q):
+                self.__DB2__.append(self.__P__[i])
+                self.__result__ = self.__P__[i]
+                self.procedure.append('%s -> %s' % (q, self.__P__[i]))
+                break
+        #         flag = True
+        # if flag:
+        #     pix = QtGui.QPixmap(self.__result__ + ".jpg")
+        #     print(self.__result__ + ".jpg")
+        #     self.label_5.setPixmap(pix)
 
     def add(self):
         pass
 
-    def select(self, qModelIndex):
+    def select1(self, qModelIndex):
         self.fact.append(self.__s__[qModelIndex.row()])
+    def select2(self, qModelIndex):
+        self.fact.append(self.__a__[qModelIndex.row()])
 
 
 class AddGUI(QtWidgets.QDialog, Ui_Dialog):
+
     def __init__(self):
         super(AddGUI, self).__init__()
         self.setupUi(self)
@@ -87,18 +127,20 @@ class AddGUI(QtWidgets.QDialog, Ui_Dialog):
             d = d.split('>')
             P.append(d[0])
             Q.append(d[1])
-        self.write(P,Q)
+        self.write(P, Q)
         self.close()
 
     def write(self, P, Q):
         with open("Q.txt", 'a+', encoding='utf-8') as f:
             for q in Q:
-                f.write("\n"+q)
+                f.write("\n" + q)
         with open("P.txt", 'a+', encoding='utf-8') as f:
             for p in P:
-                f.write("\n"+p)
+                f.write("\n" + p)
+
 
 class UpdateGui(QtWidgets.QDialog, Ui_Dialog2):
+
     def __init__(self):
         super(UpdateGui, self).__init__()
         self.setupUi(self)
@@ -130,10 +172,10 @@ class UpdateGui(QtWidgets.QDialog, Ui_Dialog2):
     def write(self, P, Q):
         with open("Q.txt", 'w', encoding='utf-8') as f:
             for q in Q:
-                f.write("\n"+q)
+                f.write("\n" + q)
         with open("P.txt", 'w', encoding='utf-8') as f:
             for p in P:
-                f.write("\n"+p)
+                f.write("\n" + p)
 
     def __read_file__(self):
         self.__P__ = []
@@ -154,10 +196,11 @@ class UpdateGui(QtWidgets.QDialog, Ui_Dialog2):
     def write(self, P, Q):
         with open("Q.txt", 'a+', encoding='utf-8') as f:
             for q in Q:
-                f.write("\n"+q)
+                f.write("\n" + q)
         with open("P.txt", 'a+', encoding='utf-8') as f:
             for p in P:
-                f.write("\n"+p)
+                f.write("\n" + p)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

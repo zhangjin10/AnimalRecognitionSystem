@@ -6,18 +6,19 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Dialog2(object):
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(819, 565)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(730, 460, 81, 241))
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel
+                                          | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(360, 10, 251, 61))
@@ -26,7 +27,7 @@ class Ui_Dialog2(object):
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(180, 80, 31, 21))
         self.label_2.setStyleSheet("font: 9pt \"方正颜宋简体\";\n"
-"color: rgb(85, 85, 85);")
+                                   "color: rgb(85, 85, 85);")
         self.label_2.setObjectName("label_2")
         self.PList = QtWidgets.QListView(Dialog)
         self.PList.setGeometry(QtCore.QRect(80, 120, 256, 331))
@@ -37,7 +38,7 @@ class Ui_Dialog2(object):
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(560, 80, 31, 21))
         self.label_3.setStyleSheet("font: 9pt \"方正颜宋简体\";\n"
-"color: rgb(85, 85, 85);")
+                                   "color: rgb(85, 85, 85);")
         self.label_3.setObjectName("label_3")
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(330, 480, 131, 41))
