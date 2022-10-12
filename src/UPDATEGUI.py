@@ -32,9 +32,9 @@ class Ui_Dialog2(object):
         self.PList = QtWidgets.QListView(Dialog)
         self.PList.setGeometry(QtCore.QRect(80, 120, 256, 331))
         self.PList.setObjectName("PList")
-        self.listView_2 = QtWidgets.QListView(Dialog)
-        self.listView_2.setGeometry(QtCore.QRect(460, 120, 256, 331))
-        self.listView_2.setObjectName("listView_2")
+        self.PList2 = QtWidgets.QListView(Dialog)
+        self.PList2.setGeometry(QtCore.QRect(460, 120, 256, 331))
+        self.PList2.setObjectName("listView_2")
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(560, 80, 31, 21))
         self.label_3.setStyleSheet("font: 9pt \"方正颜宋简体\";\n"

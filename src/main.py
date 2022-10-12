@@ -150,7 +150,7 @@ class UpdateGui(QtWidgets.QDialog, Ui_Dialog2):
         self.PList.setModel(self.slm1)
         self.slm2 = QStringListModel()
         self.slm2.setStringList(self.__Q__)
-        self.listView_2.setModel(self.slm2)
+        self.PList2.setModel(self.slm2)
 
     def accept(self):
         self.__P__ = self.slm1.stringList()
@@ -159,15 +159,16 @@ class UpdateGui(QtWidgets.QDialog, Ui_Dialog2):
         self.close()
 
     def delete(self):
-        select = self.PList.currentIndex().row()
-        self.__P__.pop(select)
-        self.__Q__.pop(select)
+        select1 = self.PList.currentIndex().row()
+        select2 = self.PList2.currentIndex().row()
+        self.__P__.pop(select1)
+        self.__Q__.pop(select2)
         slm1 = QStringListModel()
         slm1.setStringList(self.__P__)
         self.PList.setModel(slm1)
         slm2 = QStringListModel()
         slm2.setStringList(self.__Q__)
-        self.listView_2.setModel(slm2)
+        self.PList2.setModel(slm2)
 
     def write(self, P, Q):
         with open("Q.txt", 'w', encoding='utf-8') as f:
